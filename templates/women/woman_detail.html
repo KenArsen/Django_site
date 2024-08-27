@@ -9,7 +9,9 @@
     {% endif %}
     {{ object.content|linebreaks }}
     <hr>
-    <form action="{% url 'women:woman-update' object.id %}" method="get">
-        <button type="submit" class="btn btn-primary">Редактировать</button>
-    </form>
+    {% if user == object.author.id %}
+        <form action="{% url 'women:woman-update' object.id %}" method="get">
+            <button type="submit" class="btn btn-primary">Редактировать</button>
+        </form>
+    {% endif %}
 {% endblock content %}

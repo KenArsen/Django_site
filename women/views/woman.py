@@ -21,12 +21,18 @@ class WomanListView(ListView):
         return Woman.published.all()
 
 
-class WomanDetailView(LoginRequiredMixin, DataMixin, DetailView):
+class WomanDetailView(LoginRequiredMixin, DetailView):
     model = Woman
+    template_name = 'women/woman_detail.html'
     title_page = 'Детальная страница',
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user.id
+        return context
 
-class WomanUpdateView(LoginRequiredMixin, DataMixin, UpdateView):
+
+class WomanUpdateView(LoginRequiredMixin, UpdateView):
     model = Woman
     form_class = AddPostForm
     # fields = '__all__'

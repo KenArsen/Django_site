@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from women.models import Woman
 from ..forms import AddPostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from ..utils import DataMixin
 
 
 class WomanListView(ListView):

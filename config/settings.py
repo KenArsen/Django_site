@@ -32,6 +32,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'user.User'
+
 ROOT_URLCONF = 'config.urls'
 LOGIN_REDIRECT_URL = 'women:woman-list'
 LOGOUT_REDIRECT_URL = 'users:login'

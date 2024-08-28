@@ -1,8 +1,8 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from .husband import Husband
 from .woman_tag import WomanTag
 from django.urls import reverse
+from user.models import User
 
 
 class PublishedManager(models.Manager):
@@ -34,7 +34,7 @@ class Woman(models.Model):
         blank=True,
     )
     author = models.ForeignKey(
-        get_user_model(),
+        User,
         on_delete=models.SET_NULL,
         related_name='women',
         verbose_name='Автор',

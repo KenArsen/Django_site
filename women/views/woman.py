@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 
 from women.models import Woman
@@ -20,24 +20,30 @@ class WomanListView(ListView):
         return Woman.published.all()
 
 
-class WomanDetailView(LoginRequiredMixin, DetailView):
+class WomanDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     model = Woman
     template_name = 'women/woman_detail.html'
     title_page = 'Детальная страница',
+    permission_required = 'women.view_woman'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user.id
+        context['user'] = self.request.user
         return context
 
 
-class WomanUpdateView(LoginRequiredMixin, UpdateView):
+class WomanUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Woman
     form_class = AddPostForm
-    # fields = '__all__'
     template_name = 'women/woman_update.html'
     title_page = 'Изменить данный пост'
     success_url = reverse_lazy('women:woman-detail')
+    permission_required = 'women.change_woman'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
     def get_success_url(self):
         return reverse_lazy('women:woman-detail', kwargs={'pk': self.object.pk})

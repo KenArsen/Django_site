@@ -1,13 +1,12 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.contrib.auth.models import User
 from django.contrib.auth.views import AuthenticationForm
+from user.models import User
 
 
 class LoginUserForm(AuthenticationForm):
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ('username', 'password')
 
 
@@ -17,7 +16,7 @@ class RegisterUserForm(UserCreationForm):
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 'password2')
         labels = {
             'email': 'E-mail',
@@ -38,21 +37,9 @@ class RegisterUserForm(UserCreationForm):
 
 
 class ProfileUserForm(forms.ModelForm):
-    username = forms.CharField(disabled=True, widget=forms.TextInput(attrs={'class': 'form-input'}))
-    email = forms.CharField(disabled=True, widget=forms.TextInput(attrs={'class': 'form-input'}))
-
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ('username', 'email', 'first_name', 'last_name')
-        labels = {
-            'email': 'E-mail',
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-        }
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-input'}),
-        }
 
 
 class UserPasswordChangeForm(PasswordChangeForm):
